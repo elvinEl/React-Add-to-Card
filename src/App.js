@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useState } from 'react'
+import Navbar from './components/Navbar'
+import Amazon from './components/Amazon'
+import CardStar from './components/CardStar'
 function App() {
+  const [show,setShow] = useState(true)
+  const [card,setCard] = useState([])
+  const handleClick =(item)=>{
+    if(card.indexOf(item) !== -1) return;
+    setCard([...card,item])
+  }
+  const handleChange= (item,d)=>{
+    const ind =card.indexOf(item)
+    const arr = card
+    arr[ind].amount +=d
+    if(arr[ind].amount === 0) arr[ind].amount = 1;
+    setCard([...arr])
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+<Navbar setShow={setShow} size={card.length}/>
+{show ? <Amazon handleClick={handleClick}/> : <CardStar card={card} setCard={setCard} handleChange={handleChange} />}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
